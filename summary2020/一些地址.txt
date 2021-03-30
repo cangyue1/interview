@@ -1,0 +1,30 @@
+https://github.com/coreybutler/nvm-windows   安装nvm
+
+2、毕业总结提交链接：https://github.com/algorithm013/algorithm013/issues/54  （截止10月18日） 
+
+还没做测试的小伙伴抓紧时间哦
+第三阶段（vue +ts）测试：http://exam.kaikeba.com/jq/92464400.aspx
+第四阶段（react）测试：http://exam.kaikeba.com/jq/92483609.aspx
+
+️先给大家看一下咱们期中期末考试情况~
+《算法13期期中考试成绩+详情》：https://shimo.im/sheets/HTGqkyVCd8rjdj9d/MODOC/  
+《算法13期期末考试成绩+详情》：https://shimo.im/sheets/VtvrWGgVk8rDP3GP/MODOC/  
+《极客大学算法训练营-期中考试题》：https://shimo.im/docs/69uDNhxTzjADzqwQ/   
+《极客大学算法训练营-期末考试题》：https://shimo.im/docs/48Fgx91AN64ldiQO/
+
+https://juejin.im/post/6887844088335302670
+坚持造轮子第五天 - 时间旅行
+
+
+https://juejin.im/post/6886002492577234952
+坚持造轮子第四天 - 统一状态管理
+
+https://juejin.im/post/6885546581438201869
+坚持造轮子第三天 - 数据响应式
+
+https://juejin.im/post/6885546581438201869
+坚持造轮子第二天 - 防抖与节流
+
+
+https://juejin.im/post/6885250789825052679
+坚持造轮子第一天 - 模板引擎
