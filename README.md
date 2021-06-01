@@ -22,11 +22,27 @@ flex 0 1 auto
 
 ### 3、清除浮动
 
+### 4、伪类伪元素
+
+伪类和伪元素的根本区别在于：**它们是否创造了新的元素。**
+
+伪类只能使用“：”
+而伪元素既可以使用“:”，也可以使用“::”
+因为伪类是类似于添加类所以可以是多个，而伪元素在一个选择器中只能出现一次，并且只能出现在末尾
+
 ## JavaScript
 
 ### 1、事件循环
 
 ### 2、Map、Set、WeakMap、WeakSet
+
+Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键。这就解决了同名属性碰撞（clash）的问题，
+
+如果 Map 的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等，Map 将其视为一个键，比如`0`和`-0`就是一个键，布尔值`true`和字符串`true`则是两个不同的键。另外，`undefined`和`null`也是两个不同的键。虽然`NaN`不严格相等于自身，但 Map 将其视为同一个键。
+
+`WeakMap`只接受对象作为键名（`null`除外），不接受其他类型的值作为键名。
+
+WeakSet、weakMap 不可遍历，WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，WeakSet 的成员只能是对象，而不能是其他类型的值。
 
 ### 3、类型判断
 
@@ -35,11 +51,32 @@ flex 0 1 auto
 - typeof ：  返回结果为number、boolean、string、object、undefined、function、Symbol
 - **instanceof**   检查原型链是否有关系，基本数据类型要通过new来创建才可以检测
 - constructor   除了null和undefined，constructor容易被修改
-- Object.prototype.toString.call()    都可以   ie6兼容问题
+- Object.prototype.toString.call()    都可以   ie6兼容问题  ['Object', 'Array']
 
-4、async await以及generate
+### 4、async await以及generate
 
-5、try catch异常
+### 5、try catch异常
+
+### 6、箭头函数及this
+
+写法规则：
+
+- 箭头函数只能用赋值式写法，不能用声明式写法
+- 如果参数只有一个，可以不加括号，如果没有参数或者参数多于一个就需要加括号
+- 如果函数体只有一句话，可以不加花括号
+- 如果函数体没有括号，可以不写return，箭头函数会帮你return
+
+特性：
+
+- 默认绑定外层this
+- 不能用call方法修改里面的this
+
+函数中的this：
+
+- 纯粹的函数调用  会调用call方法，call方法接收的第一个参数就是this，如果为null 或者 undefined，那么 window 对象就是默认的 context（严格模式下默认 context 是 undefined）。
+- 对象中函数的调用
+- 构造函数中this，构造函数在new之后都会返回一个对象，这个对象就是this，也就是context上下文。
+- window.setTimeout()和window.setInterval()中函数的调用，里面的this默认是window对象。
 
 ## TypeScript
 
