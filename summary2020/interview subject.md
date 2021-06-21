@@ -112,7 +112,7 @@ flex 0 1 auto
 
 typeof ：  返回结果为number、boolean、string、object、undefined、function、Symbol
 
-**instanceof**   检查原型链是否有关系，基本数据类型要通过new来创建才可以检测
+**instanceof**   检查原型链是否有关系，基本数据类型要通过new来创建才可以检测    Symbol.hasInstance：这个属性定义在函数的原型上
 
 constructor   除了null和undefined，constructor容易被修改
 
