@@ -79,6 +79,12 @@ WeakSet、weakMap 不可遍历，WeakSet 中的对象都是弱引用，即垃圾
 - 构造函数中this，构造函数在new之后都会返回一个对象，这个对象就是this，也就是context上下文。
 - window.setTimeout()和window.setInterval()中函数的调用，里面的this默认是window对象。
 
+### 7、let const var
+
+let const：块级作用域，暂时性死区，全局声明不会成为window的属性，无法使用条件声明，for循环与setTimeout
+
+var： 函数作用域，声明提升
+
 ## TypeScript
 
 ### 1、类型检测
