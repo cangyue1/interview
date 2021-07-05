@@ -114,16 +114,32 @@ typeof ：  返回结果为number、boolean、string、object、undefined、func
 
 **instanceof**   检查原型链是否有关系，基本数据类型要通过new来创建才可以检测    Symbol.hasInstance：这个属性定义在函数的原型上
 
+isPrototypeOf: 与 **instanceof**   类似
+
 constructor   除了null和undefined，constructor容易被修改
 
 Object.prototype.toString.call()    都可以   ie6兼容问题
 
 ### new做了什么
 
+(1) 在内存中创建一个新对象。
+
+(2) 这个新对象内部的[[Prototype]]特性被赋值为构造函数的 prototype 属性。
+
+(3) 构造函数内部的 this 被赋值为这个新对象（即 this 指向新对象）。
+
+(4) 执行构造函数内部的代码（给新对象添加属性）。
+
+(5) 如果构造函数返回非空对象，则返回该对象；否则，返回刚创建的新对象。
+
+
+
 (1) 创建一个新对象；
 (2) 将构造函数的作用域赋给新对象（因此 this 就指向了这个新对象） ；
 (3) 执行构造函数中的代码（为这个新对象添加属性） ；
 (4) 返回新对象。
+
+
 
 ### new手写实现
 
@@ -586,6 +602,19 @@ css3中的animation属性类似于transition属性，都是随着时间去改变
 
 ### 原型
 
+函数才有prototype原型对象
+
+_proto_  也就是[[prototype]]指针 是实例对象就有的 指向构造函数的prototype
+
+isPrototypeOf()   instanceOf()  setPrototypeOf()与Object.create()
+
+```javascript
+console.log(Object.getPrototypeOf(person1) == Person.prototype)  //true 返回参数的内部特性[[Prototype]]的值
+console.log(Person.prototype.isPrototypeOf(person1)); // true    //true 会在传入参数的[[Prototype]]指向调用它的对象时返回 true
+```
+
+
+
 ![img](https://upload-images.jianshu.io/upload_images/1490251-3089c135df71c956.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
 
 ### 柯里化
@@ -610,11 +639,134 @@ for双循环
 
 ### 继承的多种方式
 
-原型链继承
+原型链继承 ：
 
-构造函数继承
+​	原型中包含引用值的时候，原型中包含的引用值会在所有实例间共享。 
 
-组合继承      
+​	子类型在实例化时不能给父类型的构造函数传参
+
+盗用构造函数继承：
+
+​	可以在子类构造函数中向父类构造函数传参。
+
+​	必须在构造函数中定义方法，因此函数不能重用。 
+
+​	此外，子类也不能访问父类原型上定义的方法，因此所有类型只能使用构造函数模式。
+
+组合继承 ：
+
+​	使用原型链继承原型上的属性和方法，而通过盗用构造函数继承实例属性。
+
+​	既可以把方法定义在原型上以实现重用，又可以让每个实例都有自己的属性。 
+
+​	保留了 instanceof 操作符和 isPrototypeOf()方法识别合成对象的能力。 
+
+​	组合继承其实也存在效率问题。最主要的效率问题就是父类构造函数始终会被调用两次
+
+```javascript
+function SuperType(name){ 
+ this.name = name; 
+ this.colors = ["red", "blue", "green"]; 
+} 
+SuperType.prototype.sayName = function() { 
+ console.log(this.name); 
+}; 
+function SubType(name, age){ 
+ // 继承属性
+ SuperType.call(this, name);  //第二次调用构造函数
+ this.age = age; 
+} 
+// 继承方法
+SubType.prototype = new SuperType();  //第一次调用构造函数
+SubType.prototype.sayAge = function() { 
+ console.log(this.age); 
+}; 
+let instance1 = new SubType("Nicholas", 29); 
+instance1.colors.push("black"); 
+console.log(instance1.colors); // "red,blue,green,black" 
+instance1.sayName(); // "Nicholas"; 
+instance1.sayAge(); // 29 
+let instance2 = new SubType("Greg", 27); 
+console.log(instance2.colors); // "red,blue,green" 
+instance2.sayName(); // "Greg"; 
+instance2.sayAge(); // 27
+```
+
+原型式继承：
+
+​	Object.create()方法将原型式继承的概念规范化了  。
+
+​	非常适合不需要单独创建构造函数，但仍然需要在对象间共享信息的场合。但要记住，属性中包含的引用值始终会在相关对象间共享，跟使用原型模式是一样的。
+
+```javascript
+function object(o) { 
+ function F() {} 
+ F.prototype = o; 
+ return new F(); 
+}
+
+let person = { 
+ name: "Nicholas", 
+ friends: ["Shelby", "Court", "Van"] 
+}; 
+let anotherPerson = Object.create(person); 
+anotherPerson.name = "Greg"; 
+anotherPerson.friends.push("Rob"); 
+let yetAnotherPerson = Object.create(person); 
+yetAnotherPerson.name = "Linda"; 
+yetAnotherPerson.friends.push("Barbie"); 
+console.log(person.friends); // "Shelby,Court,Van,Rob,Barbie"
+
+```
+
+寄生式继承：
+
+```javascript
+function createAnother(original){ 
+ let clone = object(original); // 通过调用函数创建一个新对象
+ clone.sayHi = function() { // 以某种方式增强这个对象
+ console.log("hi"); 
+ }; 
+ return clone; // 返回这个对象
+}
+
+let person = { 
+ name: "Nicholas", 
+ friends: ["Shelby", "Court", "Van"] 
+}; 
+let anotherPerson = createAnother(person); 
+anotherPerson.sayHi(); // "hi"
+```
+
+寄生式组合继承：
+
+​	只调用了一次 SuperType 构造函数，避免了 SubType.prototype 上不必要也用不到的属性
+
+```javascript
+function inheritPrototype(subType, superType) { 
+ let prototype = object(superType.prototype); // 创建对象
+ prototype.constructor = subType; // 增强对象 
+ subType.prototype = prototype; // 赋值对象
+}
+
+function SuperType(name) { 
+ this.name = name; 
+ this.colors = ["red", "blue", "green"]; 
+} 
+SuperType.prototype.sayName = function() { 
+ console.log(this.name); 
+}; 
+function SubType(name, age) { 
+ SuperType.call(this, name);
+    this.age = age; 
+} 
+inheritPrototype(SubType, SuperType); 
+SubType.prototype.sayAge = function() { 
+ console.log(this.age); 
+};
+```
+
+
 
 ### promise封装请求
 
@@ -785,6 +937,29 @@ for (var i=1; i<=5; i++) {
 ```
 
 ### 原型链实现继承
+
+每个构造函数都有一个原型对象，原型有一个属性指回构造函数，而实例有一个内部指针指向原型。如果**原型是另一个类型的实例**呢？那就意味着这个原型本身有一个内部指针指向另一个原型，相应地另一个原型也有一个指针指向另一个构造函数。这样就在实例和原型之间构造了一条原型链。这就是原型链的基本构想。
+
+```javascript
+function SuperType() { 
+ this.property = true; 
+} 
+SuperType.prototype.getSuperValue = function() { 
+ return this.property; 
+}; 
+function SubType() { 
+ this.subproperty = false; 
+} 
+// 继承 SuperType 
+SubType.prototype = new SuperType(); 
+SubType.prototype.getSubValue = function () { 
+ return this.subproperty; 
+}; 
+let instance = new SubType(); 
+console.log(instance.getSuperValue()); // true
+```
+
+
 
 ### 倒计时函数
 
