@@ -32,14 +32,46 @@
         // const g = generatorFn();
         // console.log(g); // generatorFn {<suspended>} 
         // console.log(g.next); // f next() { [native code] }
-        var merge = function (nums1, m, nums2, n) {
-            nums1 = nums1.slice(0, m).concat(nums2);
-            nums1.sort((a, b) => a - b);
-            console.log(nums1)
-        };
-        var arr1 = [1,2,3,0,0,0],
-            arr2 = [2,5,6];
-        merge(arr1, 3, arr2, 3)
+        // var merge = function (nums1, m, nums2, n) {
+        //     nums1 = nums1.slice(0, m).concat(nums2);
+        //     nums1.sort((a, b) => a - b);
+        //     console.log(nums1)
+        // };
+        // var arr1 = [1,2,3,0,0,0],
+        //     arr2 = [2,5,6];
+        // merge(arr1, 3, arr2, 3)
+
+        // const target = {
+        //     foo: 'bar'
+        // };
+        // const handler = {
+        //     get() {
+        //         return 'intercepted';
+        //     }
+        // };
+        // const { proxy, revoke } = Proxy.revocable(target, handler);
+        // console.log(proxy.gg); // intercepted 
+        // console.log(target.foo); // bar 
+        // revoke();
+        // console.log(proxy.foo); // TypeError
+
+        // var aa = 1
+        // function bb(){
+        //     console.log(aa, 'aa')
+        //     let aa = 2
+        // }
+        // bb()
+        console.log(aa, '333');
+        var aa = function(){
+            console.log('function aa')
+        }
+        console.log(aa, '111');
+        var aa = 222
+
+        console.log(aa, '222');
+
+
+
     </script>
 </body>
 

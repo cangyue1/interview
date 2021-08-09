@@ -637,137 +637,6 @@ set
 
 for双循环 
 
-### 继承的多种方式
-
-原型链继承 ：
-
-​	原型中包含引用值的时候，原型中包含的引用值会在所有实例间共享。 
-
-​	子类型在实例化时不能给父类型的构造函数传参
-
-盗用构造函数继承：
-
-​	可以在子类构造函数中向父类构造函数传参。
-
-​	必须在构造函数中定义方法，因此函数不能重用。 
-
-​	此外，子类也不能访问父类原型上定义的方法，因此所有类型只能使用构造函数模式。
-
-组合继承 ：
-
-​	使用原型链继承原型上的属性和方法，而通过盗用构造函数继承实例属性。
-
-​	既可以把方法定义在原型上以实现重用，又可以让每个实例都有自己的属性。 
-
-​	保留了 instanceof 操作符和 isPrototypeOf()方法识别合成对象的能力。 
-
-​	组合继承其实也存在效率问题。最主要的效率问题就是父类构造函数始终会被调用两次
-
-```javascript
-function SuperType(name){ 
- this.name = name; 
- this.colors = ["red", "blue", "green"]; 
-} 
-SuperType.prototype.sayName = function() { 
- console.log(this.name); 
-}; 
-function SubType(name, age){ 
- // 继承属性
- SuperType.call(this, name);  //第二次调用构造函数
- this.age = age; 
-} 
-// 继承方法
-SubType.prototype = new SuperType();  //第一次调用构造函数
-SubType.prototype.sayAge = function() { 
- console.log(this.age); 
-}; 
-let instance1 = new SubType("Nicholas", 29); 
-instance1.colors.push("black"); 
-console.log(instance1.colors); // "red,blue,green,black" 
-instance1.sayName(); // "Nicholas"; 
-instance1.sayAge(); // 29 
-let instance2 = new SubType("Greg", 27); 
-console.log(instance2.colors); // "red,blue,green" 
-instance2.sayName(); // "Greg"; 
-instance2.sayAge(); // 27
-```
-
-原型式继承：
-
-​	Object.create()方法将原型式继承的概念规范化了  。
-
-​	非常适合不需要单独创建构造函数，但仍然需要在对象间共享信息的场合。但要记住，属性中包含的引用值始终会在相关对象间共享，跟使用原型模式是一样的。
-
-```javascript
-function object(o) { 
- function F() {} 
- F.prototype = o; 
- return new F(); 
-}
-
-let person = { 
- name: "Nicholas", 
- friends: ["Shelby", "Court", "Van"] 
-}; 
-let anotherPerson = Object.create(person); 
-anotherPerson.name = "Greg"; 
-anotherPerson.friends.push("Rob"); 
-let yetAnotherPerson = Object.create(person); 
-yetAnotherPerson.name = "Linda"; 
-yetAnotherPerson.friends.push("Barbie"); 
-console.log(person.friends); // "Shelby,Court,Van,Rob,Barbie"
-
-```
-
-寄生式继承：
-
-```javascript
-function createAnother(original){ 
- let clone = object(original); // 通过调用函数创建一个新对象
- clone.sayHi = function() { // 以某种方式增强这个对象
- console.log("hi"); 
- }; 
- return clone; // 返回这个对象
-}
-
-let person = { 
- name: "Nicholas", 
- friends: ["Shelby", "Court", "Van"] 
-}; 
-let anotherPerson = createAnother(person); 
-anotherPerson.sayHi(); // "hi"
-```
-
-寄生式组合继承：
-
-​	只调用了一次 SuperType 构造函数，避免了 SubType.prototype 上不必要也用不到的属性
-
-```javascript
-function inheritPrototype(subType, superType) { 
- let prototype = object(superType.prototype); // 创建对象
- prototype.constructor = subType; // 增强对象 
- subType.prototype = prototype; // 赋值对象
-}
-
-function SuperType(name) { 
- this.name = name; 
- this.colors = ["red", "blue", "green"]; 
-} 
-SuperType.prototype.sayName = function() { 
- console.log(this.name); 
-}; 
-function SubType(name, age) { 
- SuperType.call(this, name);
-    this.age = age; 
-} 
-inheritPrototype(SubType, SuperType); 
-SubType.prototype.sayAge = function() { 
- console.log(this.age); 
-};
-```
-
-
-
 ### promise封装请求
 
 事件监听
@@ -793,17 +662,6 @@ onEvent
 解决外边距合并问题
 
 ### 手写发布订阅
-
-### requestanimationFrame  和 setinterval
-
-1.经过浏览器优化，动画更流畅
-
-2.窗口没激活时，动画将停止，省计算资源
-
-3.更省电，尤其是对移动终端
-
-requestAnimationFrame最大的优势是
-由系统来决定回调函数的执行时机。具体一点讲，如果屏幕刷新率是60Hz,那么回调函数就每16.7ms被执行一次，如果刷新率是75Hz，那么这个时间间隔就变成了1000/75=13.3ms，换句话说就是，requestAnimationFrame的步伐跟着系统的刷新步伐走。它能保证回调函数在屏幕每一次的刷新间隔中只被执行一次，这样就不会引起丢帧现象，也不会导致动画出现卡顿的问题
 
 ### less和scss
 
@@ -871,6 +729,8 @@ Object instanceof Function //true
 箭头函数不能作为构造函数，不能使用new
 **箭头函数没有原型，不能继承**
 箭头函数不能当做Generator函数,不能使用yield关键字
+
+箭头函数不能使用 arguments、super 和 new.target，也不能用作构造函数。此外，箭头函数也没有 prototype 属性。
 
 ### 静态方法和实例方法
 
@@ -1007,4 +867,43 @@ canvas根据坐标来判断点击在何处，进而做交互
 
 ### 数组平方重新排序算法
 
-###                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+### 手写实现题目
+
+```javascript
+1.实现一个 curry函数
+
+ 
+
+function curry () {}
+
+ 
+
+// 输出
+
+const curryAdd = curry((a, b) => a + b);
+
+const addTen = curryAdd(10);
+
+console.log(addTen(1));
+
+console.log(addTen(21));
+
+console.log(addTen(100));
+
+ 
+
+2.实现一个toChinese函数
+
+ 
+
+// 输出
+
+最大到10亿
+
+toChinese(100) => '一百'
+
+toChinese(231) => '二百三十一'
+
+toChinese(10010) => '一万零一十'
+```
+
