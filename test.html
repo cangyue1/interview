@@ -48,23 +48,31 @@
         // console.log(d); 
 
 
-        const o = {
-            a() {
-                console.log(this);
-            },
-            b: () => {
-                console.log(this);
-            },
-        };
+        // const o = {
+        //     a() {
+        //         console.log(this);
+        //     },
+        //     b: () => {
+        //         console.log(this);
+        //     },
+        // };
 
-        o.a();
-        o.b();
+        // o.a();
+        // o.b();
 
-        const c = o.a;
-        const d = o.b;
-        c();
-        d(); 
+        // const c = o.a;
+        // const d = o.b;
+        // c();
+        // d(); 
 
+        var x = 10;
+        var foo = () => {
+            console.log(x)
+            let x = 20;
+            // console.log(x)
+            // x++;
+        }
+        foo();
 
 
     </script>
