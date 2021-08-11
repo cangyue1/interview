@@ -258,6 +258,21 @@ Vue.util.reactive
 
 ### 2、Hooks
 
+​	**只在最顶层调用Hooks**
+
+不要在循环、条件语句或者嵌套方法中调用Hooks。
+
+要在你React方法的顶层里调用。遵循这个方式，你能保证每次组件渲染时Hooks都是按照相同的顺序被调用。这能使React在多个useState和useEffect的情形下正确保存state数据。
+
+​	**只在function组件里调用Hooks**
+
+不在普通的JavaScript方法里调用Hooks。你只能
+
+- 在function组件里调用Hooks
+- 在自定义Hooks里调用Hooks
+
+遵循这个能保证所有组件里的有状态逻辑足够清晰。
+
 ### 3、Diff算法
 
 - React/Vue 的 DIff 策略使遍历复杂度降低为 O(n)，是一个重大的优化
@@ -265,6 +280,10 @@ Vue.util.reactive
 - 尽量减少跨层级的组件改动，尽量使用 v-show/display:none 来保持 DOM 结构的稳定性，防止新增、删除等消耗大量性能的操作
 - 尽量减少将节点尾部移动到节点头部等操作，当节点数量过大或更新操作过于频繁时，在一定程度上会影响 React 的渲染性能。
 - 另外，React 从 16 版本开始使用了 Fiber 架构，这个架构解决了大型 React 项目的性能问题及一些之前框架的痛点，我会在下一章详细介绍 Fiber 架构的奥秘和其与之前架构的区别
+
+### 4、组件通信
+
+### 5、redux单项数据流
 
 ## uni-app
 

@@ -30,7 +30,7 @@
 
         // function* generatorFn() { }
         // const g = generatorFn();
-        // console.log(g); // generatorFn {<suspended>} 
+        // console.log(g); // generatorFn {<suspended>}
         // console.log(g.next); // f next() { [native code] }
         // var merge = function (nums1, m, nums2, n) {
         //     nums1 = nums1.slice(0, m).concat(nums2);
@@ -50,8 +50,8 @@
         //     }
         // };
         // const { proxy, revoke } = Proxy.revocable(target, handler);
-        // console.log(proxy.gg); // intercepted 
-        // console.log(target.foo); // bar 
+        // console.log(proxy.gg); // intercepted
+        // console.log(target.foo); // bar
         // revoke();
         // console.log(proxy.foo); // TypeError
 
@@ -68,8 +68,32 @@
         console.log(aa, '111');
         var aa = 222
 
-        console.log(aa, '222');
 
+        // const o = {
+        //     a() {
+        //         console.log(this);
+        //     },
+        //     b: () => {
+        //         console.log(this);
+        //     },
+        // };
+
+        // o.a();
+        // o.b();
+
+        // const c = o.a;
+        // const d = o.b;
+        // c();
+        // d();
+
+        var x = 10;
+        var foo = () => {
+            console.log(x)
+            let x = 20;
+            // console.log(x)
+            // x++;
+        }
+        foo();
 
 
     </script>
